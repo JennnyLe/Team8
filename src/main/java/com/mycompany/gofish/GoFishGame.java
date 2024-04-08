@@ -57,7 +57,7 @@ public class GoFishGame extends Game {
         if (hand.countRank(rank) == 4) { // If there are 4 cards of the same rank, remove them and add a book
             hand.removeRank(rank);
             hand.addBook(rank);
-            System.out.println("Player B has a book of " + rank);
+            System.out.println("Player has a book of " + rank);
         }
     }
 }
@@ -68,7 +68,8 @@ public class GoFishGame extends Game {
             return cards.get(random.nextInt(cards.size())).getRank();
     }
     private void endGame() {
-        System.out.println("Game over");
+        System.out.println();
+        System.out.println("Game over!!!");
         if (playerHand.getBooks().isEmpty()){
             System.out.println("Your Books is empty");
         }
