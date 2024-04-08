@@ -56,10 +56,10 @@ public class GoFishGameTest {
     }
 
     @Test
-    // Test with an invalid rank as input
+    // Test promptForRank with bad input
     public void testPromptForRankBad() {
         System.out.println("promptForRank Bad Test");
-        String input = "INVALID"; // Invalid rank
+        String input = "INVALID\n"; // Bad input
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         Scanner scanner = new Scanner(System.in);
@@ -69,10 +69,10 @@ public class GoFishGameTest {
     }
 
     @Test
-    // Test with an empty input
+    // Test promptForRank with boundary input (empty input)
     public void testPromptForRankBoundary() {
         System.out.println("promptForRank Boundary Test");
-        String input = ""; // Empty input
+        String input = "\n"; // Empty input
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         Scanner scanner = new Scanner(System.in);
@@ -80,6 +80,7 @@ public class GoFishGameTest {
         Rank result = instance.promptForRank(scanner);
         assertNull(result); // We expect null as the input is empty
     }
+
 
 
     /**
@@ -120,6 +121,40 @@ public class GoFishGameTest {
         GoFishGame instance = new GoFishGame("Player A");
         instance.checkBooks(hand);
         assertEquals(0, hand.getBooks().size()); // We expect no books because it's one card short for a book
+    }
+    
+    @Test
+    // Test getRandomRank with good input
+    public void testGetRandomRankGood() {
+        System.out.println("getRandomRank Good Test");
+        PlayersHand hand = new PlayersHand();
+        hand.addCard(new GoFishCard(Rank.ACE, Suit.HEARTS));
+        hand.addCard(new GoFishCard(Rank.TWO, Suit.DIAMONDS));
+        hand.addCard(new GoFishCard(Rank.THREE, Suit.CLUBS));
+        GoFishGame instance = new GoFishGame("Player A");
+        Rank result = instance.getRandomRank(hand);
+        assertNotNull(result); // We expect a non-null result
+    }
+
+    @Test
+    // Test getRandomRank with bad input (empty hand)
+    public void testGetRandomRankBad() {
+        System.out.println("getRandomRank Bad Test");
+        PlayersHand hand = new PlayersHand(); // Empty hand
+        GoFishGame instance = new GoFishGame("Player A");
+        Rank result = instance.getRandomRank(hand);
+        assertNull(result); // We expect null as the hand is empty
+    }
+
+    @Test
+    // Test getRandomRank with boundary input (hand with only one card)
+    public void testGetRandomRankBoundary() {
+        System.out.println("getRandomRank Boundary Test");
+        PlayersHand hand = new PlayersHand();
+        hand.addCard(new GoFishCard(Rank.ACE, Suit.HEARTS)); // Only one card
+        GoFishGame instance = new GoFishGame("Player A");
+        Rank result = instance.getRandomRank(hand);
+        assertNotNull(result); // We expect a non-null result even with one card
     }
 
     /**

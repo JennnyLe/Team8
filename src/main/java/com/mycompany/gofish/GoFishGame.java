@@ -34,22 +34,25 @@ public class GoFishGame extends Game {
     }
 
     public Rank promptForRank(Scanner scanner) {
-        while (true) {
-            System.out.print("\nYour Turn\nAsk opponent for a rank (e.g. ACE, TWO, THREE etc.): ");
-            String input = scanner.nextLine().toUpperCase();
-            String end="QUIT";
-            if (input.equals(end)) {
-                endGame();
-            } else {
-                try {
-                    Rank rank = Rank.valueOf(input);
-                    return rank;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid input. Please enter a valid rank.");
-                }
+    while (true) {
+        System.out.print("\nYour Turn\nAsk opponent for a rank (e.g. ACE, TWO, THREE etc.): ");
+        String input = scanner.nextLine().toUpperCase();
+        String end = "QUIT";
+        if (input.equals(end)) {
+            endGame();
+        } else {
+            try {
+                Rank rank = Rank.valueOf(input);
+                return rank;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input. Please enter a valid rank.");
+                return null; // Return null for invalid input
             }
         }
     }
+}
+
+
     
 
     public void checkBooks(PlayersHand hand) {
@@ -64,6 +67,9 @@ public class GoFishGame extends Game {
 
     public Rank getRandomRank(PlayersHand hand) {
         List<GoFishCard> cards = hand.getCards();
+        if (cards.isEmpty()) {
+        return null; // Return null if the hand is empty
+        }
         Random random = new Random();
             return cards.get(random.nextInt(cards.size())).getRank();
     }
@@ -93,6 +99,10 @@ public class GoFishGame extends Game {
         while (true) {
             System.out.println("Your Hand: " + playerHand.getCards());
             System.out.println("Your Books: " + playerHand.getBooks());
+            System.out.println();
+            System.out.println("WARNING!!!\nEnter only valid Ranks like ACE ONE TWO THREE KING QUEEN"
+                    + "\nIF YOU ENTER ANYTHING ASIDE THIS, THIS APPLICATION WILL STOP WORKING!");
+            System.out.println();
             Rank rank = promptForRank(scanner);
             
         
